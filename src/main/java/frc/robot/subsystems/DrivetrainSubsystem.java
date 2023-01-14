@@ -15,7 +15,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
   // Define devices here:
   public WPI_TalonFX testMotor;
   public int ticksPerRevolution = 2048;
-
   public double power = 0.0;
 
   /** Creates a new DrivetrainSubsystem. */

@@ -32,9 +32,8 @@ OI m_OI = new OI();
 Bling m_bling = new Bling();
 DriveCommand m_driveCommand = new DriveCommand(m_drivetrainsubsystem, m_OI);
 BlingSetCommand m_blingSetCommand = new BlingSetCommand(m_bling, m_OI);
-SendableChooser<Command> autoChooser;
 SequentialCommandGroup fullAuto;
-
+SendableChooser<Command> autoChooser = new SendableChooser<>();
 
 /** The container for the robot. Contains subsystems, OI devices, and commands. */
 public RobotContainer() {
@@ -44,7 +43,7 @@ public RobotContainer() {
   CommandScheduler.getInstance().setDefaultCommand(m_bling, m_blingSetCommand);
 
 autoChooser = new SendableChooser<Command>();
-autoChooser.setDefaultOption("<Select a command>", new InstantCommand());
+autoChooser.setDefaultOption("<Auto Select>", new InstantCommand());
 
 autoChooser.addOption("Test-Auto_1/14/2023",
   new SequentialCommandGroup(
@@ -52,9 +51,16 @@ autoChooser.addOption("Test-Auto_1/14/2023",
     new WaitCommand(2.0),
     new AbsoluteDriveCommand(m_drivetrainsubsystem, 5)));
     
+  //SmartDashboard.putData("Init/Auto Selector", autoChooser);
+
+  autoChooser.addOption("Test-Auto_1/14/2023(2)",
+  new SequentialCommandGroup(
+    new AbsoluteDriveCommand(m_drivetrainsubsystem, 1),
+    new WaitCommand(2.0),
+    new AbsoluteDriveCommand(m_drivetrainsubsystem, 5)));
+    
   SmartDashboard.putData("Init/Auto Selector", autoChooser);
 }
-
 
 /**
  * Use this method to define your button->command mappings. Buttons can be created by

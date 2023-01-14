@@ -6,13 +6,20 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.AbsoluteDriveCommand;
 import frc.robot.commands.BlingSetCommand;
+import frc.robot.commands.DashboardReadoutCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.Bling;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.OI;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,6 +34,9 @@ public class RobotContainer {
   Bling m_bling = new Bling();
   DriveCommand m_driveCommand = new DriveCommand(m_drivetrainsubsystem, m_OI);
   BlingSetCommand m_blingSetCommand = new BlingSetCommand(m_bling, m_OI);
+  SequentialCommandGroup fullAuto;
+  SendableChooser<Command> autoChooser;
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -34,6 +44,28 @@ public class RobotContainer {
     configureButtonBindings();
     CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
     CommandScheduler.getInstance().setDefaultCommand(m_bling, m_blingSetCommand);
+
+  autoChooser = new SendableChooser<Command>();
+  autoChooser.setDefaultOption("<Auto Select>", new InstantCommand());
+
+  DashboardReadoutCommand.resetCounter();
+
+  autoChooser.addOption("roadkill auto test",
+    new SequentialCommandGroup(
+      new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
+      new WaitCommand(2),
+      new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3)));
+
+    SmartDashboard.putData("Auto Selector", autoChooser);
+
+    autoChooser.addOption("test2",
+    new SequentialCommandGroup(
+      new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
+      new WaitCommand(3),
+      new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3)));
+
+    SmartDashboard.putData("Auto Selector", autoChooser);
+
   }
 
   /**
@@ -49,9 +81,18 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  public Command getAutonomousCommand(){
     // An ExampleCommand will run in autonomous
-    return null;
+    //return null;
+    fullAuto = 
+    new SequentialCommandGroup(
+      autoChooser.getSelected());
+
+    return fullAuto;
   }
 
+
+  
+  
 }
+

@@ -7,8 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import frc.robot.commands.AbsoluteDriveCommand;
 import frc.robot.commands.BlingSetCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.Bling;
@@ -16,10 +14,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.OI;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-//import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-//import edu.wpi.first.wpilibj2.command.WaitCommand;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

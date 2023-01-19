@@ -5,8 +5,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.AbsoluteDriveCommand;
+import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.OI;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,6 +26,14 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private static final String defaultAuto = "Default";
+  private static final String customAuto = "My Auto";
+  private final SendableChooser<Command> comboBchooser = new SendableChooser<>();
+  DrivetrainSubsystem m_drivetrainsubsystem = new DrivetrainSubsystem();
+  OI m_OI = new OI();
+  DriveCommand m_driveCommand = new DriveCommand(m_drivetrainsubsystem, m_OI);
+
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -27,7 +43,15 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    //m_robotContainer = new RobotContainer();
+    CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
+    comboBchooser.addOption("My Auto", 
+    new SequentialCommandGroup(
+      new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
+      new WaitCommand(2),
+      new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3)));
+
+    SmartDashboard.putData("Auto Choices", comboBchooser);
   }
 
   /**
@@ -56,17 +80,33 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    m_autonomousCommand  = comboBchooser.getSelected();
+    System.out.println("Auto Selected: " + m_autonomousCommand.getName());
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
+      System.out.println("Auto Started!!!");
       m_autonomousCommand.schedule();
     }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    switch (m_autonomousCommand.getName()) {
+      case customAuto:
+      new SequentialCommandGroup(
+        new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
+        new WaitCommand(3),
+        new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3));
+      break;
+      case defaultAuto:
+      new SequentialCommandGroup(
+        new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
+        new WaitCommand(3),
+        new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3));
+      break;
+    }
+  }
 
   @Override
   public void teleopInit() {
@@ -100,4 +140,9 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+  public Command getAutomousCommand()
+  {
+    return comboBchooser.getSelected();
+  }
 }

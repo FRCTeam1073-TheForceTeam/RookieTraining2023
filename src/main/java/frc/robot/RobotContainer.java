@@ -35,7 +35,7 @@ public class RobotContainer {
   DriveCommand m_driveCommand = new DriveCommand(m_drivetrainsubsystem, m_OI);
   BlingSetCommand m_blingSetCommand = new BlingSetCommand(m_bling, m_OI);
   SequentialCommandGroup fullAuto;
-  SendableChooser<Command> autoChooser;
+  SendableChooser<Command> comboBChooser = new SendableChooser<>();
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -45,26 +45,26 @@ public class RobotContainer {
     CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
     CommandScheduler.getInstance().setDefaultCommand(m_bling, m_blingSetCommand);
 
-  autoChooser = new SendableChooser<Command>();
-  autoChooser.setDefaultOption("<Auto Select>", new InstantCommand());
+  comboBChooser = new SendableChooser<Command>();
+  comboBChooser.setDefaultOption("<Auto Select>", new InstantCommand());
 
   DashboardReadoutCommand.resetCounter();
 
-  autoChooser.addOption("roadkill auto test",
+comboBChooser.addOption("roadkill auto test",
     new SequentialCommandGroup(
       new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
       new WaitCommand(2),
       new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3)));
 
-    SmartDashboard.putData("Auto Selector", autoChooser);
+    SmartDashboard.putData("Auto Selector", comboBChooser);
 
-    autoChooser.addOption("test2",
+    comboBChooser.addOption("test2",
     new SequentialCommandGroup(
       new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
       new WaitCommand(3),
       new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3)));
 
-    SmartDashboard.putData("Auto Selector", autoChooser);
+    SmartDashboard.putData("Auto Selector", comboBChooser);
 
   }
 
@@ -81,18 +81,16 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand(){
+  //public String getAutonomousCommand(){
     // An ExampleCommand will run in autonomous
     //return null;
-    fullAuto = 
-    new SequentialCommandGroup(
-      autoChooser.getSelected());
+    //fullAuto = 
+    //new SequentialCommandGroup(
+      //comboBChooser.getSelected());
 
-    return fullAuto;
+    //return fullAuto;
+    //return comboBChooser.getSelected();
   }
 
 
-  
-  
-}
 

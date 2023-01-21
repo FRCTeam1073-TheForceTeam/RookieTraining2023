@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AbsoluteDriveCommand;
@@ -28,7 +29,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private static final String defaultAuto = "Default";
   private static final String customAuto = "My Auto";
-  private final SendableChooser<Command> comboBchooser = new SendableChooser<>();
+  SendableChooser<Command> comboBchooser = new SendableChooser<>();
   DrivetrainSubsystem m_drivetrainsubsystem = new DrivetrainSubsystem();
   OI m_OI = new OI();
   DriveCommand m_driveCommand = new DriveCommand(m_drivetrainsubsystem, m_OI);
@@ -45,13 +46,12 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     //m_robotContainer = new RobotContainer();
     CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
-    comboBchooser.addOption("My Auto", 
-    new SequentialCommandGroup(
-      new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
-      new WaitCommand(2),
-      new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3)));
 
-    SmartDashboard.putData("Auto Choices", comboBchooser);
+    comboBchooser.addOption(customAuto, new InstantCommand());
+    SmartDashboard.putData("Auto Selector", comboBchooser);
+
+    comboBchooser.addOption(defaultAuto, new InstantCommand());
+    SmartDashboard.putData("Auto Selector", comboBchooser);
   }
 
   /**
@@ -81,10 +81,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand  = comboBchooser.getSelected();
-    System.out.println("Auto Selected: " + m_autonomousCommand.getName());
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      System.out.println("Auto Started!!!");
+      System.out.println("Auto Selected: " + m_autonomousCommand.getName());
+      System.out.println("Auto Started!");
       m_autonomousCommand.schedule();
     }
   }
@@ -92,19 +92,21 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autonomousCommand.getName()) {
-      case customAuto:
-      new SequentialCommandGroup(
-        new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
-        new WaitCommand(3),
-        new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3));
-      break;
-      case defaultAuto:
-      new SequentialCommandGroup(
-        new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
-        new WaitCommand(3),
-        new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3));
-      break;
+    if (m_autonomousCommand != null) {
+      switch (m_autonomousCommand.getName()) {
+        case customAuto:
+        new SequentialCommandGroup(
+          new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
+          new WaitCommand(3),
+          new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3));
+        break;
+        case defaultAuto:
+        new SequentialCommandGroup(
+          new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
+          new WaitCommand(3),
+          new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3));
+        break;
+      }
     }
   }
 
@@ -143,6 +145,7 @@ public class Robot extends TimedRobot {
 
   public Command getAutomousCommand()
   {
+    //System.out.println()
     return comboBchooser.getSelected();
   }
 }

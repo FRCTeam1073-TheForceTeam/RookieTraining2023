@@ -27,14 +27,13 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private static final String defaultAuto = "Default";
-  private static final String customAuto = "My Auto";
-  SendableChooser<Command> comboBchooser = new SendableChooser<>();
-  DrivetrainSubsystem m_drivetrainsubsystem = new DrivetrainSubsystem();
   OI m_OI = new OI();
+  DrivetrainSubsystem m_drivetrainsubsystem = new DrivetrainSubsystem();
   DriveCommand m_driveCommand = new DriveCommand(m_drivetrainsubsystem, m_OI);
-
-
+  private static final String kDefaultAuto = "Default";
+  private static final String kCustomAuto = "My Auto";
+  private String m_autoSelected;
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -47,12 +46,15 @@ public class Robot extends TimedRobot {
     //m_robotContainer = new RobotContainer();
     CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
 
-    comboBchooser.addOption(customAuto, new InstantCommand());
-    SmartDashboard.putData("Auto Selector", comboBchooser);
 
-    comboBchooser.addOption(defaultAuto, new InstantCommand());
-    SmartDashboard.putData("Auto Selector", comboBchooser);
+    m_chooser.addOption(kCustomAuto, kCustomAuto);
+    SmartDashboard.putData("Auto Selector", m_chooser);
+
+
+    m_chooser.addOption(kDefaultAuto, kDefaultAuto);
+    SmartDashboard.putData("Auto Selector", m_chooser);
   }
+
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
@@ -80,27 +82,31 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand  = comboBchooser.getSelected();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    m_autoSelected = m_chooser.getSelected();
+    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
+    System.out.println("Auto selected: " + m_autoSelected);
+
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      System.out.println("Auto Selected: " + m_autonomousCommand.getName());
-      System.out.println("Auto Started!");
       m_autonomousCommand.schedule();
     }
   }
 
   /** This function is called periodically during autonomous. */
+  
   @Override
   public void autonomousPeriodic() {
     if (m_autonomousCommand != null) {
       switch (m_autonomousCommand.getName()) {
-        case customAuto:
+        case kCustomAuto:
         new SequentialCommandGroup(
           new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
           new WaitCommand(3),
           new AbsoluteDriveCommand(m_drivetrainsubsystem, 10, 0.3));
         break;
-        case defaultAuto:
+        case kDefaultAuto:
         new SequentialCommandGroup(
           new AbsoluteDriveCommand(m_drivetrainsubsystem, 5, 0.5),
           new WaitCommand(3),
@@ -109,6 +115,7 @@ public class Robot extends TimedRobot {
       }
     }
   }
+
 
   @Override
   public void teleopInit() {
@@ -142,10 +149,4 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
-
-  public Command getAutomousCommand()
-  {
-    //System.out.println()
-    return comboBchooser.getSelected();
-  }
 }

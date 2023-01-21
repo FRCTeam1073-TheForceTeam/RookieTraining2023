@@ -9,6 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.AbsoluteDriveCommand;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
+  DrivetrainSubsystem m_drivetrainsubsystem = new DrivetrainSubsystem();
   private RobotContainer m_robotContainer;
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
@@ -65,12 +69,26 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
 
+      switch (m_autoSelected) {
+        case kCustomAuto:
+        m_autonomousCommand = new SequentialCommandGroup(
+          new AbsoluteDriveCommand(m_drivetrainsubsystem, 5),
+          new WaitCommand(3),
+          new AbsoluteDriveCommand(m_drivetrainsubsystem, 10));
+        break;
+        case kDefaultAuto:
+        m_autonomousCommand =  new SequentialCommandGroup(
+          new AbsoluteDriveCommand(m_drivetrainsubsystem, 5),
+          new WaitCommand(3),
+          new AbsoluteDriveCommand(m_drivetrainsubsystem, 10));
+          break;
+      }
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -80,6 +98,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {}
+  
 
   @Override
   public void teleopInit() {

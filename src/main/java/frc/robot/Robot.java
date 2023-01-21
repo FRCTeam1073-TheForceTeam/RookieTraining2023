@@ -47,11 +47,9 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
 
 
-    m_chooser.addOption(kCustomAuto, kCustomAuto);
-    SmartDashboard.putData("Auto Selector", m_chooser);
+    m_chooser.setDefaultOption("Default", kDefaultAuto);
 
-
-    m_chooser.addOption(kDefaultAuto, kDefaultAuto);
+    m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto Selector", m_chooser);
   }
 

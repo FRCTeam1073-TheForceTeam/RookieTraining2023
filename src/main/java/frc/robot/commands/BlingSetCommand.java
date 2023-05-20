@@ -23,33 +23,46 @@ public class BlingSetCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    bling.setRGBAll(177, 204, 157); //sage green
+    // bling.setRGB(0, 15, 0, 0);
+    // bling.setRGB(1, 15, 0, 10); //pink
+    // bling.setRGB(2, 24, 10, 0);
+    // bling.setRGB(3, 20, 20, 1);
+    // bling.setRGB(4, 0, 15, 0);
+    // bling.setRGB(5, 0, 0, 5);
+    // bling.setRGB(6, 5, 2, 6);
+    // bling.setRGB(7, 9, 2, 6);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(oi.getRawButton(1))
-    {
-      bling.setRGBAll(127, 245, 229);
-    }
-    else if(oi.getRawButton(2)){
-      bling.setRGBAll(161, 127, 245);
-    }
-    else if(oi.getRawButton(3))
-    {
-      bling.setRGBAll(207, 95, 102);
-    }
-    else
-    {
-      bling.setRGBAll(0, 0, 0);
-    }
+    //SET COLOR BASED ON BUTTON
+    // if(oi.getRawButton(1)){
+    //   bling.setRGBAll(15, 0, 0);
+    // }
+    // else if(oi.getRawButton(2)){
+    //   bling.setRGBAll(24, 10, 0);
+    // }
+    // else if(oi.getRawButton(3)){
+    //   bling.setRGBAll(20, 20, 1);
+    // }
+    // else if(oi.getRawButton(4)){
+    //   bling.setRGBAll(0, 15, 0);
+    // }
+    // else if(oi.getRawButton(5)){
+    //   bling.setRGBAll(0, 0, 5);
+    // }
+    // else if(oi.getRawButton(6)){
+    //   bling.setRGBAll(9, 2, 6);
+    // }
+
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    bling.setRGBAll(0, 0, 0);
+    // bling.setRGBAll(0, 0, 0);
   }
 
   // Returns true when the command should end.

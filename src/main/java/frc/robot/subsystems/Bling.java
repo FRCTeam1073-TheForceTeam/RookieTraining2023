@@ -18,6 +18,16 @@ public class Bling extends SubsystemBase {
   public int ledG = 0;
   public int ledB = 0;
 
+  /*
+  * COLORS FOR REFERENCE
+  * Red: 15, 0, 0
+  * Orange: 24, 10, 0
+  * Yellow: 20, 20, 1
+  * Green: 0, 15, 15
+  * Blue: 0, 0, 5
+  * Purple: 9, 2, 6
+  */
+
   public Bling() {
     m_LED = new AddressableLED(0);
     m_LedBuffer = new AddressableLEDBuffer(8);
@@ -36,7 +46,7 @@ public class Bling extends SubsystemBase {
     ledR = (int)SmartDashboard.getNumber("R Value", ledR);
     ledG = (int)SmartDashboard.getNumber("G Value", ledG);
     ledB = (int)SmartDashboard.getNumber("B Value", ledB);
-    setRGBAll(ledR, ledG, ledB);
+    // setRGBAll(ledR, ledG, ledB);
   }
 
   public void setRGB(int i, int r, int g, int b)
@@ -46,10 +56,6 @@ public class Bling extends SubsystemBase {
 
   public void setRGBAll(int r, int g, int b)
   {
-    ledR = r;
-    ledG = g;
-    ledB = b;
-
     for(int i = 0; i < m_LedBuffer.getLength(); i++)
     {
       m_LedBuffer.setRGB(i, r, g, b);

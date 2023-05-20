@@ -23,44 +23,44 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {// The robot's subsystems and commands are defined here...
-DrivetrainSubsystem m_drivetrainsubsystem = new DrivetrainSubsystem();
-OI m_OI = new OI();
-Bling m_bling = new Bling();
-DriveCommand m_driveCommand = new DriveCommand(m_drivetrainsubsystem, m_OI);
-BlingSetCommand m_blingSetCommand = new BlingSetCommand(m_bling, m_OI);
-SequentialCommandGroup fullAuto;
-SendableChooser<Command> comboBChooser;
+  DrivetrainSubsystem m_drivetrainsubsystem = new DrivetrainSubsystem();
+  OI m_OI = new OI();
+  Bling m_bling = new Bling();
+  DriveCommand m_driveCommand = new DriveCommand(m_drivetrainsubsystem, m_OI);
+  BlingSetCommand m_blingSetCommand = new BlingSetCommand(m_bling, m_OI);
+  SequentialCommandGroup fullAuto;
+  SendableChooser<Command> comboBChooser;
 
-/** The container for the robot. Contains subsystems, OI devices, and commands. */
-public RobotContainer() {
-  // Configure the button bindings
-  configureButtonBindings();
-  CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
-  CommandScheduler.getInstance().setDefaultCommand(m_bling, m_blingSetCommand);
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+    // Configure the button bindings
+    configureButtonBindings();
+    CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
+    CommandScheduler.getInstance().setDefaultCommand(m_bling, m_blingSetCommand);
 
-}
+  }
 
-/**
- * Use this method to define your button->command mappings. Buttons can be created by
- * instantiating a {@link GenericHID} or one of its subclasses ({@link
- * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
- * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
- */
-private void configureButtonBindings() {}
+  /**
+   * Use this method to define your button->command mappings. Buttons can be created by
+   * instantiating a {@link GenericHID} or one of its subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   */
+  private void configureButtonBindings() {}
 
-/**
- * Use this to pass the autonomous command to the main {@link Robot} class.
- *
- * @return the command to run in autonomous
- */
-public Command getAutonomousCommand() {
-   // An ExampleCommand will run in autonomous
-   //return null;
-  fullAuto =
-  new SequentialCommandGroup(
-   comboBChooser.getSelected());
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    // An ExampleCommand will run in autonomous
+    //return null;
+    fullAuto =
+    new SequentialCommandGroup(
+    comboBChooser.getSelected());
 
-   return fullAuto;
-} 
+    return fullAuto;
+  } 
 }
   

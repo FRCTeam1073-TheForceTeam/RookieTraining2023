@@ -23,46 +23,20 @@ public class BlingSetCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // bling.setRGB(0, 15, 0, 0);
-    // bling.setRGB(1, 15, 0, 10); //pink
-    // bling.setRGB(2, 24, 10, 0);
-    // bling.setRGB(3, 20, 20, 1);
-    // bling.setRGB(4, 0, 15, 0);
-    // bling.setRGB(5, 0, 0, 5);
-    // bling.setRGB(6, 5, 2, 6);
-    // bling.setRGB(7, 9, 2, 6);
+      //Setting a color here will change the bling once on startup
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //SET COLOR BASED ON BUTTON
-    // if(oi.getRawButton(1)){
-    //   bling.setRGBAll(15, 0, 0);
-    // }
-    // else if(oi.getRawButton(2)){
-    //   bling.setRGBAll(24, 10, 0);
-    // }
-    // else if(oi.getRawButton(3)){
-    //   bling.setRGBAll(20, 20, 1);
-    // }
-    // else if(oi.getRawButton(4)){
-    //   bling.setRGBAll(0, 15, 0);
-    // }
-    // else if(oi.getRawButton(5)){
-    //   bling.setRGBAll(0, 0, 5);
-    // }
-    // else if(oi.getRawButton(6)){
-    //   bling.setRGBAll(9, 2, 6);
-    // }
-
-
+      //Setting a color here will change the bling continuously while the robot is on
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // bling.setRGBAll(0, 0, 0);
+      //This never happens so don't set a color here
+      //But usually we'd turn the lights off here
   }
 
   // Returns true when the command should end.

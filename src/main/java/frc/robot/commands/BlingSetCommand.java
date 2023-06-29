@@ -29,6 +29,17 @@ public class BlingSetCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    if (oi.getRawButton(1)) {
+    
+      bling.setRGBAll(5, 255, 255);
+    }
+
+    else if (oi.getRawButton(2)) {
+
+      bling.setRGBAll(255, 255, 5);
+
+    }
       //Setting a color here will change the bling continuously while the robot is on
   }
 
@@ -37,6 +48,8 @@ public class BlingSetCommand extends CommandBase {
   public void end(boolean interrupted) {
       //This never happens so don't set a color here
       //But usually we'd turn the lights off here
+
+      bling.setRGBAll(0, 0, 0);
   }
 
   // Returns true when the command should end.

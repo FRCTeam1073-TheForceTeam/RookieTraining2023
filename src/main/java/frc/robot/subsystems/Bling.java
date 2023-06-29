@@ -29,7 +29,7 @@ public class Bling extends SubsystemBase {
   */
 
   public Bling() {
-    m_LED = new AddressableLED(0);
+    m_LED = new AddressableLED(1);
     m_LedBuffer = new AddressableLEDBuffer(8);
     m_LED.setLength(m_LedBuffer.getLength());
     m_LED.setData(m_LedBuffer);
@@ -59,6 +59,26 @@ public class Bling extends SubsystemBase {
     for(int i = 0; i < m_LedBuffer.getLength(); i++)
     {
       m_LedBuffer.setRGB(i, r, g, b);
+    }
+  }
+  public void setRainbowALL ()
+  {
+    for(int i = 0; i < m_LedBuffer.getLength(); i++)
+    {
+      //purple to green gradient
+      /*int RVal = i*(100/8);
+      int GVal = 100-(i*(100/8));
+      int BVal = 2+4*i;
+      setRGB(i, RVal, GVal, BVal);
+      */
+      //rainbow, but copied off of internet
+      int m_rainbowFirstPixelHue = 0;
+      final int hue = (m_rainbowFirstPixelHue + (i*180/m_LedBuffer.getLength())) % 180;
+      m_LedBuffer.setHSV(i, hue, 255, 128);
+
+      m_rainbowFirstPixelHue +=3;
+      m_rainbowFirstPixelHue %= 100;
+      m_LED.setData(m_LedBuffer);
     }
   }
 }

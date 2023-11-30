@@ -29,7 +29,7 @@ public class Bling extends SubsystemBase {
   */
 
   public Bling() {
-    m_LED = new AddressableLED(1);
+    m_LED = new AddressableLED(9);
     m_LedBuffer = new AddressableLEDBuffer(8);
     m_LED.setLength(m_LedBuffer.getLength());
     m_LED.setData(m_LedBuffer);
@@ -46,6 +46,7 @@ public class Bling extends SubsystemBase {
     ledR = (int)SmartDashboard.getNumber("R Value", ledR);
     ledG = (int)SmartDashboard.getNumber("G Value", ledG);
     ledB = (int)SmartDashboard.getNumber("B Value", ledB);
+    setRainbowALL();
     // setRGBAll(ledR, ledG, ledB);
   }
 

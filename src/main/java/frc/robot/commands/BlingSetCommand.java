@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.util.Color;
+// import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Bling;
 import frc.robot.subsystems.OI;
@@ -43,7 +43,8 @@ public class BlingSetCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    bling.setRainbowALL();
+    bling.setRGBAll(25, 20, 5);
+    System.out.println("It runs!");
     //SET COLOR BASED ON BUTTON
     /*if(oi.getRawButton(1)){
        bling.setRGBAll(15, 0, 0);
@@ -67,8 +68,8 @@ public class BlingSetCommand extends CommandBase {
 
   }
 
-  private void setRainbowALL() {
-  }
+  // private void setRainbowALL() {
+  // }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -13,7 +13,7 @@ public class AbsoluteDriveCommand extends CommandBase {
   public double inititialPos = 0.0;
   public double desiredPos =  2.0;
   public double currentPos;
-  public WPI_TalonFX testMotor;
+
   public int ticksPerRevolution = 2048;
   public double radiansToSpin;
   double distance;

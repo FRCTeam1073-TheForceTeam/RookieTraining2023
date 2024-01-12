@@ -5,10 +5,10 @@
 package frc.robot.commands;
 
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class AbsoluteDriveCommand extends CommandBase {
+public class AbsoluteDriveCommand extends Command {
   public double power = 0.0;
   public double inititialPos = 0.0;
   public double desiredPos =  2.0;

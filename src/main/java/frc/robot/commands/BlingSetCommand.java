@@ -38,6 +38,7 @@ public class BlingSetCommand extends Command {
   public void execute() {
     bling.setRGBAll(25, 20, 5);
     System.out.println("It runs!");
+  }
     //SET COLOR BASED ON BUTTON
     /*if(oi.getRawButton(1)){
        bling.setRGBAll(15, 0, 0);

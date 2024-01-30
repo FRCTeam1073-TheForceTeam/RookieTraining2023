@@ -24,7 +24,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   /** Creates a new DrivetrainSubsystem. */
   public DrivetrainSubsystem() {
     // Initialize devices here:
-    testMotor = new TalonFX(20);
+    testMotor = new TalonFX(46);
     testmotor_cfg.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
     testMotor.getConfigurator().apply(testmotor_cfg);
     // testMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);

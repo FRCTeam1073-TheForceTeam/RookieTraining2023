@@ -7,11 +7,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.BlingSetCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.Bling;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.OI;
+import frc.robot.subsystems.Tof;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -23,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {// The robot's subsystems and commands are defined here...
+  private final Tof m_tof = new Tof();
   DrivetrainSubsystem m_drivetrainsubsystem = new DrivetrainSubsystem();
   OI m_OI = new OI();
   Bling m_bling = new Bling();
@@ -34,6 +37,7 @@ public class RobotContainer {// The robot's subsystems and commands are defined 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
+    SmartDashboard.putData(m_tof);
     configureButtonBindings();
     CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
     // CommandScheduler.getInstance().setDefaultCommand(m_bling, m_blingSetCommand);

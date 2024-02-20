@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.BlingSetCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.MotorPositionCommand;
 import frc.robot.subsystems.Bling;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.OI;
@@ -28,6 +29,7 @@ public class RobotContainer {// The robot's subsystems and commands are defined 
   Bling m_bling = new Bling();
   DriveCommand m_driveCommand = new DriveCommand(m_drivetrainsubsystem, m_OI);
   BlingSetCommand m_blingSetCommand = new BlingSetCommand(m_bling, m_OI);
+  MotorPositionCommand m_motorPositionCommand = new MotorPositionCommand(m_drivetrainsubsystem, m_OI);
   SequentialCommandGroup fullAuto;
   SendableChooser<Command> comboBChooser;
 
@@ -35,7 +37,9 @@ public class RobotContainer {// The robot's subsystems and commands are defined 
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
+    //CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
+    CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_motorPositionCommand);
+
     // CommandScheduler.getInstance().setDefaultCommand(m_bling, m_blingSetCommand);
 
   }

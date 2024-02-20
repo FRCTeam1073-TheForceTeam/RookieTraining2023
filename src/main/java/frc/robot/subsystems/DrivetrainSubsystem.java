@@ -10,6 +10,7 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -24,7 +25,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public int ticksPerRevolution = 2048;
   final VoltageOut m_request = new VoltageOut(0);
   private MotionMagicVoltage positionMagicVoltage;
-  private double kP = 2.5;
+  private MotionMagicVelocityVoltage velocityMagicVoltage;
+  private double kP = 0.3;
   private double kI = 0;
   private double kD = 0;
 
@@ -33,10 +35,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // Initialize devices here:
     testMotor = new TalonFX(46);
     testmotor_cfg.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-    testmotor_cfg.Feedback.SensorToMechanismRatio = 5;
-    testmotor_cfg.MotionMagic.MotionMagicCruiseVelocity = 10;
-    testmotor_cfg.MotionMagic.MotionMagicAcceleration = 2;
-    testmotor_cfg.MotionMagic.MotionMagicJerk = 0;
+    testmotor_cfg.Feedback.SensorToMechanismRatio = 1;
+    testmotor_cfg.MotionMagic.MotionMagicCruiseVelocity = 20;
+    testmotor_cfg.MotionMagic.MotionMagicAcceleration = 14;
+    testmotor_cfg.MotionMagic.MotionMagicJerk = 9;
     testMotor.getConfigurator().apply(testmotor_cfg);
 
     var testMotorClosedLoopConfig = new Slot0Configs();
@@ -51,6 +53,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     positionMagicVoltage = new MotionMagicVoltage(0).withSlot(0);
     SmartDashboard.putNumber("Motor Percent Output", getVelocity());
 
+    velocityMagicVoltage = new MotionMagicVelocityVoltage(0).withSlot(0);
+
   }
 
   public double getPosition() {
@@ -59,7 +63,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public double getVelocity() {
-    return 1.0; //testMotor.getSelectedSensorVelocity() * (2 * Math.PI) * 10.0 / ticksPerRevolution;
+    //return 1.0; //testMotor.getSelectedSensorVelocity() * (2 * Math.PI) * 10.0 / ticksPerRevolution;
+    return testMotor.getRotorVelocity().getValue();
   }
 
   public double getMotorTemperature() {
@@ -72,6 +77,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public void setPosition(double position) {
     testMotor.setControl(positionMagicVoltage.withPosition(position));
+  }
+
+  public void setVelocity(double velocity) {
+    testMotor.setControl(velocityMagicVoltage.withVelocity(velocity));
   }
 
 

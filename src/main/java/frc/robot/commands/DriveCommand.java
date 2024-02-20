@@ -27,7 +27,7 @@ public class DriveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.setPower(0.5*OI.driverController.getRawAxis(1));
+    drivetrain.setVelocity(20 * oi.getRawDriverAxis(1));
     //drivetrain.setPower(drivetrain.power);
   }
 

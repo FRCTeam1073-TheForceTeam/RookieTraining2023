@@ -76,4 +76,9 @@ public class OI extends SubsystemBase {
   {
     return driverController.getRawButton(i);
   }
+
+  public double getRawDriverAxis(int i) 
+  {
+    return driverController.getRawAxis(i);
+  }
 }

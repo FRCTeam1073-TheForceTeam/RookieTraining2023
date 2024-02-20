@@ -37,8 +37,8 @@ public class RobotContainer {// The robot's subsystems and commands are defined 
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    //CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
-    CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_motorPositionCommand);
+    CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_driveCommand);
+    //CommandScheduler.getInstance().setDefaultCommand(m_drivetrainsubsystem, m_motorPositionCommand);
 
     // CommandScheduler.getInstance().setDefaultCommand(m_bling, m_blingSetCommand);
 
